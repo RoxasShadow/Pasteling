@@ -31,10 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get ('/:id/:key.json',   paste.getJSON);
-app.get ('/:id/:key',        paste.get    );
-app.get ('/',                routes.index );
-app.post('/',                paste.create );
+app.get ('/api/:id/:key', paste.getJSON);
+app.get ('/:id/:key',     paste.get    );
+app.get ('/',             routes.index );
+app.post('/',             paste.create );
 app.use(app.router);
 
 app.use(function(req, res, next) {
@@ -66,3 +66,5 @@ app.configure('production', function() {
 });
 
 module.exports = app;
+
+  
