@@ -56,7 +56,7 @@ exports.getJSON = function(req, res, next) {
 
 exports.create = function(req, res) {
   var denied = req.body.text.trim() == '';
-  var key    = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(8);
+  var key    = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
   
   var data = {
     id  : (Math.random() + 1).toString(36).substring(8),
