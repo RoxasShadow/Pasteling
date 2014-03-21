@@ -55,17 +55,15 @@ exports.getJSON = function(req, res, next) {
 };
 
 exports.create = function(req, res) {
-  var denied = req.body.text.trim() == '';
-  var key    = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
+  var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
   
   var data = {
     id  : (Math.random() + 1).toString(36).substring(8),
-    text: denied ? '' : security.encrypt(req.body.text, key),
-    lang: req.body.lang || 'plain/text'
+    text: req.body.text.trim() == '' ? '' : security.encrypt(req.body.text, key),
+    lang: req.body.lang && req.body.lang.trim() != '' ? req.body.lang : 'plain/text'
   };
 
   var paste = new Paste(data);
-
   paste.save(function(err) {
     if(err)
       new CodeMirror(path, req, res).render('index', { error: err.errors });
