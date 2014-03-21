@@ -59,3 +59,21 @@ h1 {
 ::-moz-placeholder          { font-style: italic }
 :-ms-input-placeholder      { font-style: italic }
 input:-moz-placeholder      { font-style: italic }
+
+#github a {
+  max-height    : 40px;
+  overflow      : visible;
+  padding-top   : 0;
+  padding-bottom: 0;
+}
+
+#github a img {
+  margin-top: 5px;
+  opacity   : 0.4;
+  filter    : alpha(opacity = 40);
+}
+
+#github a img:hover {
+  opacity: 1.0;
+  filter : alpha(opacity = 100);
+}
