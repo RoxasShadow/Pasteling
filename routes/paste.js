@@ -55,12 +55,13 @@ exports.getJSON = function(req, res, next) {
 };
 
 exports.create = function(req, res) {
-  var denied = req.body.text.trim() == '' || req.body.key.trim() == '';
+  var denied = req.body.text.trim() == '';
+  var key    = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(8);
   
   var data = {
     id  : (Math.random() + 1).toString(36).substring(8),
-    text: denied ? '' : security.encrypt(req.body.text, req.body.key),
-    lang: req.body.lang
+    text: denied ? '' : security.encrypt(req.body.text, key),
+    lang: req.body.lang || 'plain/text'
   };
 
   var paste = new Paste(data);
@@ -69,6 +70,6 @@ exports.create = function(req, res) {
     if(err)
       new CodeMirror(path, req, res).render('index', { error: err.errors });
     else
-      res.redirect('/' + paste.id + '/' + req.body.key);
+      res.redirect('/' + paste.id + '/' + key);
   });
 };

@@ -6,6 +6,7 @@ Features
 --------
 - ROFL-Scaling
 - Modular (en|de)cryption algorithms
+- Encryption with an user key or a random one
 - Delivered with a cool text editor
 
 Rly
