@@ -1,0 +1,12 @@
+{
+  "name"    : "Pasteling",
+  "homepage": "https://github.com/RoxasShadow/Pasteling",
+  "authors" : [
+    "Giovanni Capuano <webmaster@giovannicapuano.net>"
+  ],
+  "description": "An encrypted pastebin.",
+  "license"    : "WTFPL",
+  "dependencies": {
+    "codemirror": "~3.22.0"
+  }
+}
