@@ -15,6 +15,11 @@ html(lang='en')
     script(src="/javascripts/lib/codemirror/addon/display/fullscreen.js")
     script(src="/javascripts/lib/codemirror/mode/meta.js")
 
+    - if(langs != undefined)
+      - each lang in langs
+        - if(lang.mode != 'null')
+            script(src="/javascripts/lib/codemirror/mode/#{lang.mode}/#{lang.mode}.js")
+
   body
     div#container
       div#contents
@@ -64,8 +69,3 @@ html(lang='en')
     div.right#github
       a(href="https://github.com/RoxasShadow/Pasteling" target="_blank")
         img(src="/github.png" width="40" height="40")
-
-    - if(langs != undefined)
-      - each lang in langs
-        - if(lang.mode != 'null')
-            script(src="/javascripts/lib/codemirror/mode/#{lang.mode}/#{lang.mode}.js")
