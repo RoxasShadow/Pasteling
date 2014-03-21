@@ -37,6 +37,23 @@ exports.get = function(req, res, next) {
   });
 };
 
+exports.getJSON = function(req, res, next) {
+  Paste.load(req.params.id, function(err, paste) {
+    if(err)
+      return res.json('paste', {
+        error: err.errors
+      });
+
+    if(!paste)
+      return next();
+
+    paste.moment = moment;
+    paste.text   = security.decrypt(paste.text, req.params.key);
+
+    res.json('paste', { paste: paste });
+  });
+};
+
 exports.create = function(req, res) {
   var denied = req.body.text.trim() == '' || req.body.key.trim() == '';
   
