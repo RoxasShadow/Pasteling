@@ -71,3 +71,21 @@ exports.create = function(req, res) {
       res.redirect('/' + paste.id + '/' + key);
   });
 };
+
+exports.createJSON = function(req, res) {
+  var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
+  
+  var data = {
+    id  : (Math.random() + 1).toString(36).substring(8),
+    text: req.body.text && req.body.text.trim() != '' ? security.encrypt(req.body.text, key) : '',
+    lang: req.body.lang && req.body.lang.trim() != '' ? req.body.lang                        : 'plain/text'
+  };
+
+  var paste = new Paste(data);
+  paste.save(function(err) {
+    if(err)
+      res.json('response', { error: err.errors                });
+    else
+      res.json('response', { url:  '/' + paste.id + '/' + key });
+  });
+};
