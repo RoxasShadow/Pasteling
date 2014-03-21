@@ -59,8 +59,8 @@ exports.create = function(req, res) {
   
   var data = {
     id  : (Math.random() + 1).toString(36).substring(8),
-    text: req.body.text.trim() == '' ? '' : security.encrypt(req.body.text, key),
-    lang: req.body.lang && req.body.lang.trim() != '' ? req.body.lang : 'plain/text'
+    text: req.body.text && req.body.text.trim() != '' ? security.encrypt(req.body.text, key) : '',
+    lang: req.body.lang && req.body.lang.trim() != '' ? req.body.lang                        : 'plain/text'
   };
 
   var paste = new Paste(data);
