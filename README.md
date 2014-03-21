@@ -14,7 +14,7 @@ I encrypt your data only when I receive them. So if in the meantime someone snif
 
 Tips
 ----
-- If you serve static resources though Apache, write a `.htaccess` file and perform caching and gzipping on them.
+In order to improve performance, enable caching and gzip compression when you serve static resources.
 
 
 Install
