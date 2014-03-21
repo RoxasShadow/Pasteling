@@ -40,9 +40,7 @@ exports.get = function(req, res, next) {
 exports.getJSON = function(req, res, next) {
   Paste.load(req.params.id, function(err, paste) {
     if(err)
-      return res.json('paste', {
-        error: err.errors
-      });
+      return res.json({ error: err.errors });
 
     if(!paste)
       return next();
@@ -50,7 +48,7 @@ exports.getJSON = function(req, res, next) {
     paste.moment = moment;
     paste.text   = security.decrypt(paste.text, req.params.key);
 
-    res.json('paste', { paste: paste });
+    res.json({ paste: paste });
   });
 };
 
@@ -84,8 +82,8 @@ exports.createJSON = function(req, res) {
   var paste = new Paste(data);
   paste.save(function(err) {
     if(err)
-      res.json('response', { error: err.errors                });
+      res.json({ status: 'error',   errors: err.errors                 });
     else
-      res.json('response', { url:  '/' + paste.id + '/' + key });
+      res.json({ status: 'success', path:   '/' + paste.id + '/' + key });
   });
 };

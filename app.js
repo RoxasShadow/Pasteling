@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.get ('/api/:id/:key', paste.getJSON   );
-app.post('/api/',         paste.createJSON);
+app.post('/api/new',      paste.createJSON);
 
 app.get ('/:id/:key',     paste.get   );
 app.get ('/',             routes.index);
