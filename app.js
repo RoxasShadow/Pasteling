@@ -32,11 +32,12 @@ app.use(express.static(path.join(__dirname, 'public'))); // Delete this line if 
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(multer());
+app.use(multer({ dest: './.tmp/' }));
 
-app.get ('/api/:id/:key', api.get   );
-app.get ('/api/langs',    api.langs );
-app.post('/api/new',      api.create);
+app.get ('/api/:id/:key',      api.getJSON);
+app.get ('/api/read/:id/:key', api.get    );
+app.get ('/api/langs',         api.langs  );
+app.post('/api/new',           api.create );
 
 app.get ('/:id/:key',     paste.get   );
 app.get ('/',             routes.index);

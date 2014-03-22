@@ -77,3 +77,12 @@ input:-moz-placeholder      { font-style: italic }
   opacity: 1.0;
   filter : alpha(opacity = 100);
 }
+
+a, a:hover, a:visited {
+  color: #eee;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

@@ -32,7 +32,7 @@ exports.get = function(req, res, next) {
 
     paste.moment = moment;
     paste.text   = security.decrypt(paste.text, req.params.key);
-    res.render('paste', { paste: paste });
+    res.render('paste', { paste: paste, key: req.params.key });
   });
 };
 
@@ -40,10 +40,10 @@ exports.create = function(req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
   var codemirror = new CodeMirror(path);
 
-  codemirror.get(req.body.lang || 'Plain Text', function(lang) {
+  codemirror.get(req.body.lang || 'null', function(lang) {
     if(lang == null)
-      codemirror.langs(function(langs) {
-        return res.render('index', { error: [ 'Language not recognized.' ], langs: langs });
+      return codemirror.langs(function(langs) {
+        res.render('index', { error: [ 'Language not recognized.' ], langs: langs });
       });
     
     var data = {

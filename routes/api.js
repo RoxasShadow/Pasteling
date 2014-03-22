@@ -8,6 +8,7 @@
  *  0. You just DO WHAT THE FUCK YOU WANT TO.
  */
 
+var fs         = require('fs'                  );
 var mongoose   = require('mongoose'            );
 var moment     = require('moment'              );
 var config     = require('../config.js'        );
@@ -34,22 +35,35 @@ exports.get = function(req, res, next) {
     if(!paste)
       return next();
 
+    res.writeHead(200, { 'Content-Type': 'plain/text' });
+    res.end(security.decrypt(paste.text, req.params.key));
+  });
+};
+
+exports.getJSON = function(req, res, next) {
+  Paste.load(req.params.id, function(err, paste) {
+    if(err)
+      return res.json({ error: err.errors });
+
+    if(!paste)
+      return next();
+
     paste.moment = moment;
     paste.text   = security.decrypt(paste.text, req.params.key);
     res.json({ paste: paste });
   });
 };
 
-exports.create = function(req, res) {
+function create(text, req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
-
+  
   new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
 
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: req.body.text && req.body.text.trim() != '' ? security.encrypt(req.body.text, key) : '',
+      text: text.trim() == '' ? '' : security.encrypt(text, key),
       lang: lang
     };
 
@@ -63,4 +77,14 @@ exports.create = function(req, res) {
       }
     });
   });
+}
+
+exports.create = function(req, res) {
+  if(req.files.text)
+    fs.readFile(req.files.text.path, function(err, text) {
+      create(text.toString(), req, res);
+      fs.unlink(req.files.text.path);
+    });
+  else
+    create(req.body.text, req, res);
 };

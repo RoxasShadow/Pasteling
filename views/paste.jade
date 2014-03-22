@@ -15,4 +15,5 @@ block main
       h1.center= paste.id
       textarea(name="text" id="editor")= paste.text
 
+      a(href="/api/read/" + paste.id + "/" + key, target="_blank")= 'Raw'
       i.right= paste.moment(paste.createdAt).lang('en').fromNow()

@@ -31,7 +31,7 @@ html(lang='en')
           lineWrapping : true,
           matchBrackets: true,
           readOnly     : #{paste !== undefined},
-          mode         : "#{paste === undefined ? 'text/plain' : paste.lang}",
+          mode         : "#{paste === undefined ? 'text/plain' : paste.lang.mode}",
           theme        : 'monokai',
           extraKeys    : {
             'F11': function(cm) {
