@@ -63,7 +63,7 @@ function create(text, req, res) {
 
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: text.trim() == '' ? '' : security.encrypt(text, key),
+      text: !text || text.trim() == '' ? '' : security.encrypt(text, key),
       lang: lang
     };
 
