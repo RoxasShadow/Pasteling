@@ -21,7 +21,7 @@ var Paste = mongoose.model('Paste');
 var path  = 'public/javascripts/lib/codemirror';
 
 exports.langs = function(req, res, next) {
-  new CodeMirror(path, req, res).langs(function(modes) {
+  new CodeMirror(path).langs(function(modes) {
     res.json({ langs: modes });
   });
 };
@@ -43,7 +43,7 @@ exports.get = function(req, res, next) {
 exports.create = function(req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
 
-  new CodeMirror(path, req, res).get(req.body.lang || 'Plain Text', function(lang) {
+  new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
 
