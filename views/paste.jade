@@ -8,9 +8,9 @@ block header
 
 block main
   - if(error !== undefined)
-    ul
-      - each err in error
-          li= err
+      ul
+        - each err in error
+            li= err
   - else
       h1.center= paste.id
       textarea(name="text" id="editor")= paste.text

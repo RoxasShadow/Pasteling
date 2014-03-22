@@ -15,11 +15,13 @@ I encrypt your data only when I receive them. So if in the meantime someone snif
 
 JSON APIs
 ---------
-`/api/new`      - POST - *text* (required), *lang* (optional), *key* (optional)
+`/api/new`      - POST - *text* (required), *lang* (optional), *key* (optional) - Send a new paste
 
-`/api/:key/:id` - GET
+`/api/:key/:id` - GET  - Get a paste
 
-The field *lang* requires one of the *mime* you can find [here](http://codemirror.net/mode/meta.js). Default is *text/plain*.
+`/api/langs`    - GET  - Get a list of supported languages
+
+The field *lang* requires one of the *name* you can find in `/api/langs`. Default is *Plain Text*.
 
 Tips
 ----

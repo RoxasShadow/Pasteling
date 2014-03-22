@@ -22,6 +22,7 @@ fs.readdirSync('./models').forEach(function(file) {
 
 var routes  = require('./routes'      );
 var paste   = require('./routes/paste');
+var api     = require('./routes/api'  );
 
 var app = express();
 app.set('views',       path.join(__dirname, 'views'));
@@ -31,8 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.get ('/api/:id/:key', paste.getJSON   );
-app.post('/api/new',      paste.createJSON);
+app.get ('/api/:id/:key', api.get   );
+app.get ('/api/langs',    api.langs );
+app.post('/api/new',      api.create);
 
 app.get ('/:id/:key',     paste.get   );
 app.get ('/',             routes.index);
