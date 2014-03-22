@@ -38,10 +38,13 @@ exports.get = function(req, res, next) {
 
 exports.create = function(req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
+  var codemirror = new CodeMirror(path);
 
-  new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
+  codemirror.get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
-      return res.render('index', { error: [ 'Language not recognized.' ] });
+      codemirror.langs(function(langs) {
+        return res.render('index', { error: [ 'Language not recognized.' ], langs: langs });
+      });
     
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
@@ -52,7 +55,9 @@ exports.create = function(req, res) {
     var paste = new Paste(data);
     paste.save(function(err) {
       if(err)
-        res.render('index', { error: err.errors });
+        codemirror.langs(function(langs) {
+          res.render('index', { error: err.errors, langs: langs });
+        });
       else
         res.redirect('/' + paste.id + '/' + key);
     });
