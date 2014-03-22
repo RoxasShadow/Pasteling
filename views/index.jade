@@ -22,9 +22,9 @@ block main
       select#langSelector(name="lang")
         - each lang in langs
             - if(lang.name == 'Plain Text')
-                option(value="#{lang.mode}" selected)= lang.name
+                option(value="#{lang.name}" selected)= lang.name
             - else
-                option(value="#{lang.mode}"         )= lang.name
+                option(value="#{lang.name}"         )= lang.name
 
       select#tabSizeSelector
         option(value="2"          )= '2'
