@@ -40,7 +40,7 @@ exports.create = function(req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
   var codemirror = new CodeMirror(path);
 
-  codemirror.get(req.body.lang || 'null', function(lang) {
+  codemirror.get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return codemirror.langs(function(langs) {
         res.render('index', { error: [ 'Language not recognized.' ], langs: langs });

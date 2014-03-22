@@ -57,7 +57,7 @@ exports.getJSON = function(req, res, next) {
 function create(text, req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
   
-  new CodeMirror(path).get(req.body.lang || 'null', function(lang) {
+  new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
 
