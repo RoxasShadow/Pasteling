@@ -56,9 +56,11 @@ exports.create = function(req, res) {
     var paste = new Paste(data);
     paste.save(function(err) {
       if(err)
-        res.json({ status: 'error',   error: err.errors                  });
-      else
-        res.json({ status: 'success', path:   '/' + paste.id + '/' + key });
+        res.json({ status: 'error', error: err.errors });
+      else {
+        var url = req.protocol + '://' + req.get('host');
+        res.json({ status: 'success', path: url + '/api/' + paste.id + '/' + key });
+      }
     });
   });
 };

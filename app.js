@@ -11,6 +11,7 @@
 var fs       = require('fs'      );
 var path     = require('path'    );
 var express  = require('express' );
+var multer   = require('multer'  );
 var mongoose = require('mongoose');
 var config   = require('./config');
 
@@ -27,10 +28,11 @@ var api     = require('./routes/api'  );
 var app = express();
 app.set('views',       path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'))); // Delete this line if you use another web server
 
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(multer());
 
 app.get ('/api/:id/:key', api.get   );
 app.get ('/api/langs',    api.langs );
