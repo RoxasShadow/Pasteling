@@ -16,7 +16,6 @@ var PasteSchema = new Schema({
   id       : { type: String, default: ''       },
   text     : { type: String, default: ''       },
   lang     : { type: Object, default: ''       },
-  mode     : { type: String, default: ''       },
   createdAt: { type: Date,   default: Date.now }
 });
 
