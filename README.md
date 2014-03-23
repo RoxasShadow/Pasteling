@@ -9,9 +9,10 @@ Features
 - Encryption with an user key or a random one
 - Delivered with a cool text editor
 
-Rly
----
-I encrypt your data only when I receive them. So if in the meantime someone sniffs them, it's not my fault. Anyway, using TLS you should be safe enough.
+Clients
+-------
+- [pasteling.rb](https://gist.github.com/RoxasShadow/9708419)
+- [pasteling.sh](https://gist.github.com/Robertof/9717274)
 
 JSON APIs
 ---------
@@ -22,6 +23,10 @@ JSON APIs
 `/api/langs`    - GET  - Get a list of supported languages
 
 The field *lang* requires one of the *name* you can find in `/api/langs`. Default is *Plain Text*.
+
+Rly
+---
+I encrypt your data only when I receive them. So if in the meantime someone sniffs them, it's not my fault. Anyway, using TLS you should be safe enough.
 
 Tips
 ----
