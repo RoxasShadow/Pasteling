@@ -56,6 +56,9 @@ exports.getJSON = function(req, res, next) {
 
 function create(text, req, res) {
   var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
+
+  if(req.body.key && !/^[a-zA-Z0-9]+$/.test(key))
+    return res.json({ status: 'error', error: [ 'Invalid key format.' ] });
   
   new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
