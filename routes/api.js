@@ -35,7 +35,7 @@ exports.get = function(req, res, next) {
     if(!paste)
       return next();
 
-    res.writeHead(200, { 'Content-Type': 'plain/text' });
+    res.setHeader('Content-Type', 'text/plain');
     res.end(security.decrypt(paste.text, req.params.key));
   });
 };
