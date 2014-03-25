@@ -15,7 +15,8 @@ var Schema = mongoose.Schema;
 var PasteSchema = new Schema({
   id       : { type: String, default: ''       },
   text     : { type: String, default: ''       },
-  lang     : { type: Object, default: ''       },
+  salt     : { type: String, default: ''       },
+  lang     : { type: Object, default: {}       },
   createdAt: { type: Date,   default: Date.now }
 });
 

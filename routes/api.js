@@ -35,8 +35,10 @@ exports.get = function(req, res, next) {
     if(!paste)
       return next();
 
+    var hash = security.hash(req.params.key, paste.salt, req.params.key.length, config.iterations);
+
     res.setHeader('Content-Type', 'text/plain');
-    res.end(security.decrypt(paste.text, req.params.key).toString());
+    res.end(security.decrypt(paste.text, hash.key).toString());
   });
 };
 
@@ -48,25 +50,30 @@ exports.getJSON = function(req, res, next) {
     if(!paste)
       return next();
 
+    var hash = security.hash(req.params.key, paste.salt, req.params.key.length, config.iterations);
+
     paste.moment = moment;
-    paste.text   = security.decrypt(paste.text, req.params.key);
+    paste.text   = security.decrypt(paste.text, hash.key);
+    paste.salt   = undefined;
     res.json({ paste: paste });
   });
 };
 
 function create(text, req, res) {
-  var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
+  var key = req.body.key && !!req.body.key.trim() ? req.body.key : security.randomKey(config.keyLength / 2);
 
-  if(req.body.key && !/^[a-zA-Z0-9]+$/.test(key))
+  if(!/^[a-zA-Z0-9]+$/.test(key))
     return res.json({ status: 'error', error: [ 'Invalid key format.' ] });
-  
+
   new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
-
+    
+    var hash = security.hash(key, '', key.length, config.iterations);
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: !text || text.trim() == '' ? '' : security.encrypt(text, key),
+      text: !text || !text.trim() ? '' : security.encrypt(text, hash.key),
+      salt: hash.salt,
       lang: lang
     };
 

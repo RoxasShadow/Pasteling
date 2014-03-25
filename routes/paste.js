@@ -30,20 +30,25 @@ exports.get = function(req, res, next) {
     if(!paste)
       return next();
 
+    var hash = security.hash(req.params.key, paste.salt, req.params.key.length, config.iterations);
+
     paste.moment = moment;
-    paste.text   = security.decrypt(paste.text, req.params.key);
-    res.render('paste', { paste: paste, key: req.params.key });
+    paste.text   = security.decrypt(paste.text, hash.key);
+    paste.salt   = undefined;
+    res.render('paste', { paste: paste, key: hash.key });
   });
 };
 
 exports.create = function(req, res) {
-  var key = req.body.key && req.body.key.trim() != '' ? req.body.key : Math.random().toString(36).substring(config.keyLength);
-  var codemirror = new CodeMirror(path);
+  var key = req.body.key && !!req.body.key.trim() ? req.body.key : security.randomKey(config.keyLength / 2);
 
-  if(req.body.key && !/^[a-zA-Z0-9]+$/.test(key))
+  if(!/^[a-zA-Z0-9]+$/.test(key))
     return codemirror.langs(function(langs) {
       res.render('index', { error: [ 'Invalid key format.' ], langs: langs });
     });
+
+  var hash       = security.hash(key, '', key.length, config.iterations);
+  var codemirror = new CodeMirror(path);
 
   codemirror.get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
@@ -53,7 +58,8 @@ exports.create = function(req, res) {
     
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: req.body.text && req.body.text.trim() != '' ? security.encrypt(req.body.text, key) : '',
+      text: req.body.text && !!req.body.text.trim() ? security.encrypt(req.body.text, hash.key) : '',
+      salt: hash.salt,
       lang: lang
     };
 
