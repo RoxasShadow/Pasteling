@@ -8,6 +8,7 @@ Features
 - Modular (en|de)cryption algorithms
 - Encryption with an user key or a random one
 - Delivered with a cool text editor
+- Read/write APIs
 
 Clients
 -------
@@ -24,9 +25,9 @@ JSON APIs
 
 The field *lang* requires one of the *name* you can find in `/api/langs`. Default is *Plain Text*.
 
-Rly
----
-I encrypt your data only when I receive them. So if in the meantime someone sniffs them, it's not my fault. Anyway, using TLS you should be safe enough.
+Warning
+-------
+*At the moment*, I encrypt your data only when I receive them. So if in the meantime someone sniffs them, it's not my fault. *At the moment* is far to be safe. In the meantime, you could use TLS to improve a bit your safety.
 
 Tips
 ----
