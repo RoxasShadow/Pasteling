@@ -1,7 +1,7 @@
 var config = {};
 
-// Encryption algorithm to encrypt pastes. Available: aes256
-config.algorithm  = 'aes256';
+// Encryption algorithm to encrypt pastes. Available: aes-256-cbc
+config.algorithm  = 'aes-256-cbc';
 
 // Default length for encryption keys
 config.keyLength  = 8;
