@@ -35,7 +35,7 @@ exports.get = function(req, res, next) {
     paste.moment = moment;
     paste.text   = security.decrypt(paste.text, hash.key);
     paste.salt   = undefined;
-    res.render('paste', { paste: paste, key: hash.key });
+    res.render('paste', { paste: paste, key: req.params.key });
   });
 };
 
