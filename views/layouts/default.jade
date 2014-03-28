@@ -15,7 +15,7 @@ html(lang='en')
     script(src="/javascripts/lib/codemirror/addon/display/fullscreen.js")
     script(src="/javascripts/lib/codemirror/mode/meta.js")
 
-    - if(paste)
+    - if(paste && paste.lang.mode != 'null')
         script(src="/javascripts/lib/codemirror/mode/#{paste.lang.mode}/#{paste.lang.mode}.js")
 
   body
