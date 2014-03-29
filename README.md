@@ -19,6 +19,14 @@ If your data are not so sensible, and you want to get a short URL (aka, without 
 
 Obviously, this README refers to the client-side version. Check out the README in the other branch for informations about the server-side version.
 
+Ciphering and hashing
+---------------------
+*Pasteling* (en|de)crypts pastes in *AES* and hashes keys in *PBKDF2*.
+Algorithms configuration is available in `public/javascripts/pasteling/config.js`.
+
+If you want to use different ciphering algorithms, you have just to create an adapter in `public/javascripts/algorithms/ciphering/`, load it in `public/javascripts/algorithms/ciphering.js` and so select it in `public/javascripts/pasteling/config.js`.
+The same applies to the hashing.
+
 Clients
 -------
 Not available yet.
