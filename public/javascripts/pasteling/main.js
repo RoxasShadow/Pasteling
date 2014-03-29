@@ -7,8 +7,8 @@ define(function(require) {
   var Post       = require('./post'  );
   var config     = require('./config');
   
-  var ciphering  = require('ciphering').useAlgorithm(config.ciphering);
-  var hashing    = require('hashing'  ).useAlgorithm(config.hashing  );
+  var ciphering  = require('ciphering').useAlgorithm(config.algorithms.ciphering);
+  var hashing    = require('hashing'  ).useAlgorithm(config.algorithms.hashing  );
 
   new AppView();
   var router = new AppRouter;
@@ -22,9 +22,14 @@ define(function(require) {
     var lang = $('#editor').data('lang');
 
     var post = new Post(text, key, salt, lang);
-    post.decrypt(ciphering, hashing, config);
 
-    $editor.setValue(!!post.text.trim() ? post.text : 'Invalid key or salt.');
+    try {
+      post.decrypt(ciphering, hashing, config);
+      $editor.setValue(!!post.text.trim() ? post.text : 'Invalid key or salt.');
+    }
+    catch(err) {
+      $editor.setValue('Invalid key or salt.');
+    }
   });
 
   Backbone.history.start();
