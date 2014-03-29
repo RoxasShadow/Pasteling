@@ -34,14 +34,13 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(multer({ dest: './.tmp/' }));
 
-app.get ('/api/:id/:key',      api.getJSON);
-app.get ('/api/read/:id/:key', api.get    );
-app.get ('/api/langs',         api.langs  );
-app.post('/api/new',           api.create );
+app.get ('/api/:id',      api.getJSON);
+app.get ('/api/read/:id', api.get    );
+app.get ('/api/langs',    api.langs  );
+app.post('/api/new',      api.create );
 
-app.get ('/:id/:key',     paste.get   );
-app.get ('/',             routes.index);
-app.post('/',             paste.create);
+app.get ('/:id', paste.get   );
+app.get ('/',    routes.index);
 app.use(app.router);
 
 app.use(function(req, res, next) {

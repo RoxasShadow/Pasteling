@@ -2,6 +2,8 @@ doctype html
 html(lang='en')
   head
     block header
+    script(data-curl-run="/javascripts/run.js" src="/javascripts/lib/curl/src/curl.js")
+
     link(type="text/css" rel="stylesheet" href="/stylesheets/style.css")
     link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/lib/codemirror.css")
     link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/theme/monokai.css")
@@ -26,7 +28,7 @@ html(lang='en')
     script.
       var textarea = document.getElementById('editor');
       if(textarea != null) {
-        var editor = CodeMirror.fromTextArea(textarea, {
+        $editor = CodeMirror.fromTextArea(textarea, {
           lineNumbers  : true,
           lineWrapping : true,
           matchBrackets: true,
@@ -44,13 +46,13 @@ html(lang='en')
             }
           }
         });
-        editor.setSize('100%', 700);
+        $editor.setSize('100%', 700);
 
         var langSelector = document.getElementById('langSelector');
         if(langSelector)
           langSelector.addEventListener('change', function(a) {
             var selectedLang = this.options[this.selectedIndex].value;
-            var setLang      = function() { editor.setOption('mode', selectedLang) };
+            var setLang      = function() { $editor.setOption('mode', selectedLang) };
 
             var js = document.createElement('script');
                 js.type   = 'text/javascript';
@@ -65,13 +67,19 @@ html(lang='en')
         if(tabSelector)
           tabSelector.addEventListener('change', function(a) {
             var selectedTabSize = this.options[this.selectedIndex].value;
-            editor.setOption('tabSize', parseInt(selectedTabSize));
+            $editor.setOption('tabSize', parseInt(selectedTabSize));
           });
       }
 
     block footer
     div.clear
     
-    div.right#github
-      a(href="https://github.com/RoxasShadow/Pasteling" target="_blank" title="[ad4ed7d0e0]")
-        img(src="/github.png" width="40" height="40" alt="Pasteling on GitHub")
+    div.footer#footer-right
+      div#github
+        a(href="https://github.com/RoxasShadow/Pasteling" target="_blank" title="[d22aea7b87]")
+          img(src="/github.png" width="40" height="40" alt="Pasteling on GitHub")
+
+    div.footer#footer-left
+      div#help
+        p(title="but first you should put the focus on the editor, baka! o///o")
+          ='Full screen: F11'

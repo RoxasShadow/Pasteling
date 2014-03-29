@@ -9,6 +9,7 @@
  */
 
 var CodeMirror = require('../lib/codemirror.js');
+
 var path = 'public/javascripts/lib/codemirror';
 
 exports.index = function(req, res) {

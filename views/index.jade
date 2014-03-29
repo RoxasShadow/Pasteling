@@ -6,17 +6,11 @@ block header
 block main
   h1.center= 'Pasteling'
 
-  - if(error !== undefined)
-      h2= 'Errors'
-      ul
-        - each err in error
-            li= err
-
   form(method="post", action="/")
     textarea(name="text" id="editor")
 
     div.left.inline
-      input(type="text", name="key" placeholder="key")
+      input#key(type="text", name="key" placeholder="key")
 
     div.right.inline
       select#langSelector(name="lang")
@@ -34,4 +28,4 @@ block main
     div.clear
 
     div.center
-      input(type="submit", value="Send")
+      input(type="submit", value="Send" id="send")

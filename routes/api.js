@@ -11,12 +11,7 @@
 var fs         = require('fs'                  );
 var mongoose   = require('mongoose'            );
 var moment     = require('moment'              );
-var config     = require('../config.js'        );
-var Security   = require('../lib/security.js'  );
 var CodeMirror = require('../lib/codemirror.js');
-
-var algorithm = require('../lib/algorithms/' + config.algorithm);
-var security  = new Security(new algorithm());
 
 var Paste = mongoose.model('Paste');
 var path  = 'public/javascripts/lib/codemirror';
@@ -35,10 +30,8 @@ exports.get = function(req, res, next) {
     if(!paste)
       return next();
 
-    var hash = security.hash(req.params.key, paste.salt, req.params.key.length, config.iterations);
-
     res.setHeader('Content-Type', 'text/plain');
-    res.end(security.decrypt(paste.text, hash.key).toString());
+    res.end(paste.text);
   });
 };
 
@@ -50,30 +43,19 @@ exports.getJSON = function(req, res, next) {
     if(!paste)
       return next();
 
-    var hash = security.hash(req.params.key, paste.salt, req.params.key.length, config.iterations);
-
     paste.moment = moment;
-    paste.text   = security.decrypt(paste.text, hash.key);
-    paste.salt   = undefined;
     res.json({ paste: paste });
   });
 };
 
 function create(text, req, res) {
-  var key = req.body.key && !!req.body.key.trim() ? req.body.key : security.randomKey(config.keyLength / 2);
-
-  if(!/^[a-zA-Z0-9]+$/.test(key))
-    return res.json({ status: 'error', error: [ 'Invalid key format.' ] });
-
   new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
     
-    var hash = security.hash(key, '', key.length, config.iterations);
     var data = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: !text || !text.trim() ? '' : security.encrypt(text, hash.key),
-      salt: hash.salt,
+      text: text,
       lang: lang
     };
 
@@ -83,7 +65,12 @@ function create(text, req, res) {
         res.json({ status: 'error', error: err.errors });
       else {
         var url = req.protocol + '://' + req.get('host');
-        res.json({ status: 'success', path: url + '/api/' + paste.id + '/' + key });
+        var path = {
+          json  : url + '/api/'      + paste.id,
+          plain : url + '/api/read/' + paste.id,
+          editor: url + '/'          + paste.id
+        }
+        res.json({ status: 'success', path: path });
       }
     });
   });
