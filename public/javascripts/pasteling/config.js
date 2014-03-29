@@ -1,10 +1,12 @@
 define(function(require) {
   return {
-    keyLength: 32, // default key length when it is not given in input
+    ciphering: 'aes',
+    hashing  : 'pbkdf2',
+    keyLength: 32,       // (/8)  key size when it is not given in input
     hashing  : {
-      keyLength : 128, // default length for encrypted key
-      saltLength: 64,  // length of the salt to hash the key
-      iterations: 1000 // number of iterations for salting
+      keyLength : 128,   // (/32) hashed key size
+      saltLength: 64,    // (/8)  salt size 
+      iterations: 1000   // number of iterations for key hashing
     }
   };
 });

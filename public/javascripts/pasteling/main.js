@@ -1,16 +1,16 @@
 define(function(require) {
   var Backbone   = require('Backbone' );
   var $          = require('jquery'   );
-  var ciphering  = require('ciphering').useAlgorithm('aes'   );
-  var hashing    = require('hashing'  ).useAlgorithm('pbkdf2');
 
   var AppView    = require('./view'   );
   var AppRouter  = require('./router' );
   var Post       = require('./post'  );
   var config     = require('./config');
+  
+  var ciphering  = require('ciphering').useAlgorithm(config.ciphering);
+  var hashing    = require('hashing'  ).useAlgorithm(config.hashing  );
 
   new AppView();
-
   var router = new AppRouter;
 
   router.on('route:read', function(keySalt) {
