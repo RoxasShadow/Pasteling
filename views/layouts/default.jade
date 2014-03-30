@@ -3,19 +3,16 @@ html(lang='en')
   head
     block header
     script(data-curl-run="/javascripts/run.js" src="/javascripts/lib/curl/src/curl.js")
-    link(type="text/css" rel="stylesheet" href="/stylesheets/style.css")
 
-    - if(paste && paste.lang.mode != 'null')
-        script(src="/javascripts/lib/codemirror/mode/#{paste.lang.mode}/#{paste.lang.mode}.js")
+    script.
+      $lang     = "#{paste === undefined ? 'undefined'   : paste.lang.mode}";
+      $readonly =  #{paste !== undefined};
+      $mode     = "#{paste === undefined ? 'text/plain' : paste.lang.mode}";
 
   body
     div#container
       div#contents
         block main
-
-    script.
-      $readonly = #{paste !== undefined};
-      $mode     = "#{paste === undefined ? 'text/plain' : paste.lang.mode}";
 
     div.clear
     block footer
