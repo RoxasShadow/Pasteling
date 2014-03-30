@@ -10,6 +10,7 @@
 
 var mongoose   = require('mongoose'            );
 var moment     = require('moment'              );
+var package    = require('../package.json'     );
 
 var Paste = mongoose.model('Paste');
 
@@ -24,6 +25,6 @@ exports.get = function(req, res, next) {
       return next();
 
     paste.moment = moment;
-    res.render('paste', { paste: paste });
+    res.render('paste', { paste: paste, version: package.version });
   });
 };

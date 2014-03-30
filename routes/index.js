@@ -9,11 +9,12 @@
  */
 
 var CodeMirror = require('../lib/codemirror.js');
+var package    = require('../package.json'     );
 
 var path = 'public/javascripts/lib/codemirror';
 
 exports.index = function(req, res) {
   new CodeMirror(path).langs(function(langs) {
-    res.render('index', { langs: langs });
+    res.render('index', { langs: langs, version: package.version });
   });
 };
