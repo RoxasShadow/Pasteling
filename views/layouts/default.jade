@@ -3,19 +3,7 @@ html(lang='en')
   head
     block header
     script(data-curl-run="/javascripts/run.js" src="/javascripts/lib/curl/src/curl.js")
-
     link(type="text/css" rel="stylesheet" href="/stylesheets/style.css")
-    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/lib/codemirror.css")
-    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/theme/monokai.css")
-    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/addon/dialog/dialog.css")
-    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/addon/display/fullscreen.css")
-
-    script(src="/javascripts/lib/codemirror/lib/codemirror.js")
-    script(src="/javascripts/lib/codemirror/addon/search/search.js")
-    script(src="/javascripts/lib/codemirror/addon/search/searchcursor.js")
-    script(src="/javascripts/lib/codemirror/addon/dialog/dialog.js")
-    script(src="/javascripts/lib/codemirror/addon/display/fullscreen.js")
-    script(src="/javascripts/lib/codemirror/mode/meta.js")
 
     - if(paste && paste.lang.mode != 'null')
         script(src="/javascripts/lib/codemirror/mode/#{paste.lang.mode}/#{paste.lang.mode}.js")
@@ -26,53 +14,11 @@ html(lang='en')
         block main
 
     script.
-      var textarea = document.getElementById('editor');
-      if(textarea != null) {
-        $editor = CodeMirror.fromTextArea(textarea, {
-          lineNumbers  : true,
-          lineWrapping : true,
-          matchBrackets: true,
-          readOnly     : #{paste !== undefined},
-          mode         : "#{paste === undefined ? 'text/plain' : paste.lang.mode}",
-          theme        : 'monokai',
-          extraKeys    : {
-            'F11': function(cm) {
-              cm.setOption('fullScreen', !cm.getOption('fullScreen'));
-            },
+      $readonly = #{paste !== undefined};
+      $mode     = "#{paste === undefined ? 'text/plain' : paste.lang.mode}";
 
-            'Esc': function(cm) {
-              if(cm.getOption('fullScreen'))
-                cm.setOption('fullScreen', false);
-            }
-          }
-        });
-        $editor.setSize('100%', 700);
-
-        var langSelector = document.getElementById('langSelector');
-        if(langSelector)
-          langSelector.addEventListener('change', function(a) {
-            var selectedLang = this.options[this.selectedIndex].value;
-            var setLang      = function() { $editor.setOption('mode', selectedLang) };
-
-            var js = document.createElement('script');
-                js.type   = 'text/javascript';
-                js.src    = '/javascripts/lib/codemirror/mode/' + selectedLang + '/' + selectedLang + '.js';
-                js.onload = setLang;
-                js.onreadystatechange = setLang;
-
-            document.getElementsByTagName('head')[0].appendChild(js);
-          });
-        
-        var tabSelector = document.getElementById('tabSizeSelector')
-        if(tabSelector)
-          tabSelector.addEventListener('change', function(a) {
-            var selectedTabSize = this.options[this.selectedIndex].value;
-            $editor.setOption('tabSize', parseInt(selectedTabSize));
-          });
-      }
-
-    block footer
     div.clear
+    block footer
     
     div.footer#footer-right
       div#github
