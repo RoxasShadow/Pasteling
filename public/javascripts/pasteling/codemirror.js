@@ -37,7 +37,7 @@ if(textarea != null) {
     });
   }
 
-  if($lang != 'undefined') {
+  if($lang != 'undefined' && $lang != 'null') {
     var setLang = function() { $editor.setOption('mode', $lang) };
 
     var js = document.createElement('script');
