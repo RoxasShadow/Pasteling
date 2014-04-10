@@ -2,7 +2,19 @@ doctype html
 html(lang='en')
   head
     block header
-    script(data-curl-run="/javascripts/run.js" src="/javascripts/lib/curl/src/curl.js")
+    script(src="/javascripts/pasteling.js")
+    link(type="text/css" rel="stylesheet" href="/stylesheets/pasteling.css")
+
+    script.
+      $(document).ready(function() {
+        Pasteling.main.setup();
+      });
+
+    link(type="text/css" rel="stylesheet" href="/stylesheets/style.css")
+    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/lib/codemirror.css")
+    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/theme/monokai.css")
+    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/addon/dialog/dialog.css")
+    link(type="text/css" rel="stylesheet" href="/javascripts/lib/codemirror/addon/display/fullscreen.css")
 
     script.
       $lang     = "#{paste === undefined ? 'undefined'   : paste.lang.mode}";

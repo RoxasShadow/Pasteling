@@ -1,27 +1,20 @@
-define(function(require) {
-  var $          = require('jquery'   );
-  var ciphering  = require('ciphering').useAlgorithm('aes'   );
-  var hashing    = require('hashing'  ).useAlgorithm('pbkdf2');
-
-  var config     = require('./config' );
-  var Post       = require('./post'   );
-
-  function send(text, key, lang, callback) {
+Pasteling.view = (function() {
+  var send = function(text, key, lang, callback) {
     if(!key.trim())
-      key = hashing.random(config.keyLength).toString();
+      key = Pasteling.hashing.randomString(Pasteling.config.keyLength).toString();
 
     if(!text.trim()) {
       alert('Paste cannot be blank.');
       return;
     }
 
-    var post = new Post(text, key, '', lang);
-    post.encrypt(ciphering, hashing, config);
+    var post = new Pasteling.Post(text, key, '', lang);
+    post.encrypt();
 
     $.post('/api/new', post.publicData(), function(data) {
       callback(data, post);
     });
-  }
+  };
 
   return Backbone.View.extend({
     el: 'body',
@@ -33,7 +26,7 @@ define(function(require) {
     send: function(e) {
       e.preventDefault();
 
-      var text = $editor.getValue();
+      var text = Pasteling.codemirror.editor.getValue();
       var key  = $('#key').val();
       var lang = $('#langSelector').val();
 
@@ -46,6 +39,5 @@ define(function(require) {
         }
       });
     }
-
   });
-});
+})();

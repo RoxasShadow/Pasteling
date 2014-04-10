@@ -1,36 +1,36 @@
-define(function(require) {
-  var Backbone   = require('Backbone' );
-  var $          = require('jquery'   );
+Pasteling.main = (function() {
+  var setup = function() {
+    Pasteling.ciphering.useAlgorithm(Pasteling.config.algorithms.ciphering);
+    Pasteling.hashing  .useAlgorithm(Pasteling.config.algorithms.hashing  );
 
-  var AppView    = require('./view'   );
-  var AppRouter  = require('./router' );
-  var Post       = require('./post'  );
-  var config     = require('./config');
-  
-  var ciphering  = require('ciphering').useAlgorithm(config.algorithms.ciphering);
-  var hashing    = require('hashing'  ).useAlgorithm(config.algorithms.hashing  );
+    Pasteling.codemirror.setup();
+    new Pasteling.view();
 
-  new AppView();
-  var router = new AppRouter;
+    var router = new Pasteling.router();
+    router.on('route:read', function(keySalt) {
+      keySalt = keySalt.split('!');
 
-  router.on('route:read', function(keySalt) {
-    keySalt = keySalt.split('!');
+      var editor = Pasteling.codemirror.editor;
 
-    var text = $editor.getValue();
-    var key  = keySalt.pop();
-    var salt = keySalt.pop();
-    var lang = $('#editor').data('lang');
+      var text = editor.getValue();
+      var key  = keySalt.pop();
+      var salt = keySalt.pop();
+      var lang = $('#editor').data('lang');
 
-    var post = new Post(text, key, salt, lang);
+      try {
+        var post = new Pasteling.Post(text, key, salt, lang);
+        post.decrypt();
+        editor.setValue(!!post.text.trim() ? post.text : 'Invalid key or salt.');
+      }
+      catch(err) {
+        editor.setValue('Invalid key or salt.');
+      }
+    });
 
-    try {
-      post.decrypt(ciphering, hashing, config);
-      $editor.setValue(!!post.text.trim() ? post.text : 'Invalid key or salt.');
-    }
-    catch(err) {
-      $editor.setValue('Invalid key or salt.');
-    }
-  });
+    Backbone.history.start();
+  };
 
-  Backbone.history.start();
-});
+  return {
+    setup: setup
+  };
+})();

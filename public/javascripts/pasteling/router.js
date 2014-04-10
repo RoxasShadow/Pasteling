@@ -1,9 +1,7 @@
-define(function(require) {
-  var Backbone = require('Backbone');
-  
+Pasteling.router = (function() {  
   return Backbone.Router.extend({
     routes: {
       ':keySalt': 'read'
     }
   });
-});
+})();

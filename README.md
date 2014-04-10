@@ -10,6 +10,7 @@ Features
 - Delivered with a cool text editor
 - Read/write APIs
 - Client-side ciphering (the server-side ciphering branch is available [here](https://github.com/RoxasShadow/Pasteling/tree/server-side))
+- Minification of static resources
 
 What branch I should use?
 -------------------------
@@ -22,10 +23,10 @@ Obviously, this README refers to the client-side version. Check out the README i
 Ciphering and hashing
 ---------------------
 *Pasteling* (en|de)crypts pastes in *AES* and hashes keys in *PBKDF2*.
-Algorithms configuration is available in `public/javascripts/pasteling/config.js`.
+Algorithms configuration is available in `lib/javascripts/pasteling/config.js`.
 
-If you want to use different ciphering algorithms, you have just to create an adapter in `public/javascripts/algorithms/ciphering/`, load it in `public/javascripts/algorithms/ciphering.js` and in `public/javascripts/run.js` and so select it in `public/javascripts/pasteling/config.js`.
-The same applies to the hashing.
+For example, if you want to use a different ciphering algorithm, you have just to create an adapter in `lib/javascripts/algorithms/ciphering/`.
+If you have used an external library, add it in `Gruntfile.js` and then select your adapter in `lib/javascripts/pasteling/config.js`.
 
 Clients
 -------
@@ -47,6 +48,7 @@ Install
 $ npm   install
 $ npm   install -g bower
 $ bower install
+$ grunt
 $ npm   start
 ```
 

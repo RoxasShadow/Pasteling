@@ -1,4 +1,4 @@
-define(function(require) {
+Pasteling.config = (function() {
   return {
     algorithms: {
       ciphering: 'aes',
@@ -13,4 +13,4 @@ define(function(require) {
 
     keyLength: 32        // (/8)  key size when it is not given in input
   };
-});
+})();

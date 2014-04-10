@@ -1,31 +1,31 @@
-var textarea = document.getElementById('editor');
+Pasteling.codemirror = (function() {
+  var setup = function() {
+    var that     = this;
+    var textarea = document.getElementById('editor');
 
-if(textarea != null) {
-  $editor = CodeMirror.fromTextArea(textarea, {
-    lineNumbers  : true,
-    lineWrapping : true,
-    matchBrackets: true,
-    readOnly     : $readonly,
-    mode         : $mode,
-    theme        : 'monokai',
-    extraKeys    : {
-      'F11': function(cm) {
-        cm.setOption('fullScreen', !cm.getOption('fullScreen'));
-      },
+    this.editor = CodeMirror.fromTextArea(textarea, {
+      lineNumbers  : true,
+      lineWrapping : true,
+      matchBrackets: true,
+      readOnly     : $readonly,
+      mode         : $mode,
+      theme        : 'monokai',
+      extraKeys    : {
+        'F11': function(cm) {
+          cm.setOption('fullScreen', !cm.getOption('fullScreen'));
+        },
 
-      'Esc': function(cm) {
-        if(cm.getOption('fullScreen'))
-          cm.setOption('fullScreen', false);
+        'Esc': function(cm) {
+          if(cm.getOption('fullScreen'))
+            cm.setOption('fullScreen', false);
+        }
       }
-    }
-  });
-  $editor.setSize('100%', 700);
+    });
+    this.editor.setSize('100%', 700);
 
-  var langSelector = document.getElementById('langSelector');
-  if(langSelector) {
-    langSelector.addEventListener('change', function(a) {
+    $('#langSelector').on('change', function() {
       var selectedLang = this.options[this.selectedIndex].value;
-      var setLang      = function() { $editor.setOption('mode', selectedLang) };
+      var setLang      = function() { that.editor.setOption('mode', selectedLang) };
 
       var js = document.createElement('script');
           js.type   = 'text/javascript';
@@ -33,27 +33,29 @@ if(textarea != null) {
           js.onload = setLang;
           js.onreadystatechange = setLang;
 
-      document.getElementsByTagName('head')[0].appendChild(js);
+      $('head')[0].appendChild(js);
     });
-  }
 
-  if($lang != 'undefined' && $lang != 'null') {
-    var setLang = function() { $editor.setOption('mode', $lang) };
+    if($lang != 'undefined' && $lang != 'null') {
+      var setLang = function() { that.editor.setOption('mode', $lang) };
 
-    var js = document.createElement('script');
-        js.type   = 'text/javascript';
-        js.src    = '/javascripts/lib/codemirror/mode/' + $lang + '/' + $lang + '.js';
-        js.onload = setLang;
-        js.onreadystatechange = setLang;
+      var js = document.createElement('script');
+          js.type   = 'text/javascript';
+          js.src    = '/javascripts/lib/codemirror/mode/' + $lang + '/' + $lang + '.js';
+          js.onload = setLang;
+          js.onreadystatechange = setLang;
 
-    document.getElementsByTagName('head')[0].appendChild(js);
-  }
-  
-  var tabSelector = document.getElementById('tabSizeSelector')
-  if(tabSelector) {
-    tabSelector.addEventListener('change', function(a) {
+      $('head')[0].appendChild(js);
+    }
+    
+    $('#tabSizeSelector').on('change', function() {
       var selectedTabSize = this.options[this.selectedIndex].value;
-      $editor.setOption('tabSize', parseInt(selectedTabSize));
+      that.editor.setOption('tabSize', parseInt(selectedTabSize));
     });
-  }
-}
+  };
+
+  return {
+    setup : setup,
+    editor: this.editor
+  };
+})();

@@ -1,19 +1,20 @@
-define(function(require, exports) {
-  return {
-    useAlgorithm: function(algorithm) {
-      this.algorithm = require('./ciphering/' + algorithm);
-      this.stringify = this.algorithm.stringify;
-      return this;
-    },
-
-    encrypt: function(text, key) {
-      return this.algorithm.encrypt(text, key);
-    },
-
-    decrypt: function(text, key) {
-      return this.algorithm.decrypt(text, key);
-    }
+Pasteling.ciphering = (function() {
+  var useAlgorithm = function(algorithm) {
+    this.algorithm = Pasteling.ciphering[algorithm];
+    this.stringify = this.algorithm.stringify;
   };
 
-  require('./ciphering/aes');
-});
+  var encrypt = function(text, key) {
+    return this.algorithm.encrypt(text, key);
+  };
+
+  var decrypt = function(text, key) {
+    return this.algorithm.decrypt(text, key);
+  };
+
+  return {
+    useAlgorithm: useAlgorithm,
+    encrypt     : encrypt,
+    decrypt     : decrypt
+  };
+})();
