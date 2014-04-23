@@ -9,14 +9,14 @@ Features
 - Encryption with an user key or a random one
 - Delivered with a cool text editor
 - Read/write APIs
-- Client-side ciphering (the server-side ciphering branch is available [here](https://github.com/RoxasShadow/Pasteling/tree/server-side))
+- Client-side ciphering (the server-side version is available [here](https://github.com/RoxasShadow/Pasteling))
 - Minification of static resources
 
-What branch I should use?
+What version I should use?
 -------------------------
-Well, the *client-side* version is of course the most secure. All data are encrypted in your computer and the server receive just the ciphered text.
-The disvantage of this pratice is that the URL params will be long (id + salt + key).
-If your data are not so sensible, and you want to get a short URL (aka, without the salt), the *server-side* version is what would to choose.
+Well, the *client-side* version is of course the most secure. All data are encrypted in your computer and the server receives just the ciphered text.
+The disvantage of this pratice is that the URL params will be long (id + salt + key) and you have not raw versions of your pastes.
+If your data are not so sensible, and you want to get a very short URL (aka, without the salt), raw pastes, etc., the *server-side* version is what would to choose.
 
 Obviously, this README refers to the client-side version. Check out the README in the other branch for informations about the server-side version.
 
@@ -53,4 +53,4 @@ $ grunt
 $ npm   start
 ```
 
-[Demo](http://pasteling.giovannicapuano.net)
+[Demo](http://pasteling-client.giovannicapuano.net)
