@@ -27,7 +27,8 @@ The field *lang* requires one of the *name* you can find in `/api/langs`. Defaul
 
 Warning
 -------
-*At the moment*, I encrypt your data only when I receive them. So if in the meantime someone sniffs them, it's not my fault. *At the moment* is far to be safe. In the meantime, you could use TLS to improve a bit your safety.
+This version of Pasteling performs encryption in the server side and is far to be totally safe.
+If you need more security, choose the [client-side](https://github.com/RoxasShadow/Pasteling/tree/client-side) version.
 
 Tips
 ----
