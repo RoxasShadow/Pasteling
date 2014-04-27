@@ -15,18 +15,18 @@ Features
 What version I should use?
 -------------------------
 Well, the *client-side* version is of course the most secure. All data are encrypted in your computer and the server receives just the ciphered text.
-The disvantage of this pratice is that the URL params will be long (id + salt + key) and you have not raw versions of your pastes.
-If your data are not so sensible, and you want to get a very short URL (aka, without the salt), raw pastes, etc., the *server-side* version is what would to choose.
+The disvantage of this pratice is that the URL params will be a little long and you have not raw versions of your pastes.
+If your data are not so sensible or you want to get raw pastes, the *server-side* version is what would to choose.
 
-Obviously, this README refers to the client-side version. Check out the README in the other branch for informations about the server-side version.
+Obviously, this README refers to the client-side version. Check out the README in the [other branch](https://github.com/RoxasShadow/Pasteling) for informations about the server-side version.
 
 Ciphering and hashing
 ---------------------
 *Pasteling* (en|de)crypts pastes in *AES* and hashes keys in *PBKDF2*.
-Algorithms configuration is available in `lib/javascripts/pasteling/config.js`.
+Algorithms configuration is available in `public/javascripts/pasteling/config.js`.
 
-For example, if you want to use a different ciphering algorithm, you have just to create an adapter in `lib/javascripts/algorithms/ciphering/`.
-If you have used an external library, add it in `Gruntfile.js` and then select your adapter in `lib/javascripts/pasteling/config.js`.
+For example, if you want to use a different ciphering algorithm, you have just to create an adapter in `public/javascripts/algorithms/ciphering/`.
+If you have used an external library, add it in `Gruntfile.js` and then select your adapter in `public/javascripts/pasteling/config.js`.
 
 Clients
 -------
@@ -34,13 +34,15 @@ Not available yet.
 
 JSON APIs
 ---------
-`/api/new`   - POST - *text* (required), *lang* (optional) - Send a new encrypted paste
+`/api/new`   - POST - *iv* (required), *salt* (required), *ct* (required), *lang* (optional) - Send a new encrypted paste
 
 `/api/:id`   - GET  - Get an encrypted paste
 
 `/api/langs` - GET  - Get a list of supported languages
 
 The field *lang* requires one of the *name* you can find in `/api/langs`. Default is *Plain Text*.
+
+The fields *iv*, *salt* and *ct* refer respectively to the initialization vector, the key salt and the ciphered text.
 
 Install
 -------
