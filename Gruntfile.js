@@ -2,7 +2,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     cssmin: {
       css: {
-        files: { 'public/stylesheets/pasteling.css': [
+        files: { 'public/stylesheets/pasteling.min.css': [
           'public/javascripts/style.css',
 
           'public/javascripts/lib/codemirror/lib/codemirror.css',
@@ -15,16 +15,13 @@ module.exports = function(grunt) {
 
     uglify: {
       js: {
-        files: { 'public/javascripts/pasteling.js': [
+        files: { 'public/javascripts/pasteling.min.js': [
           'public/javascripts/namespace.js',
           'public/javascripts/pasteling/config.js',
 
           'public/javascripts/lib/jquery/jquery.min.js',
           'public/javascripts/lib/underscore/underscore.js',
           'public/javascripts/lib/backbone/backbone.js',
-
-          'public/javascripts/lib/crypto-js/rollups/aes.js',
-          'public/javascripts/lib/crypto-js/rollups/pbkdf2.js',
 
           'public/javascripts/lib/codemirror/lib/codemirror.js',
           'public/javascripts/lib/codemirror/addon/search/search.js',

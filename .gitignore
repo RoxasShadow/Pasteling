@@ -2,6 +2,6 @@ node_modules/
 *.log
 
 public/javascripts/lib/
-public/javascripts/pasteling.js
+public/javascripts/pasteling.min.js
 
-public/stylesheets/pasteling.css
+public/stylesheets/pasteling.min.css
