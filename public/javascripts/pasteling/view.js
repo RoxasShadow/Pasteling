@@ -1,14 +1,14 @@
 Pasteling.view = (function() {
   var send = function(text, key, lang, callback) {
     if(!key.trim())
-      key = Pasteling.hashing.randomString(Pasteling.config.keyLength).toString();
+      key = Pasteling.hashing.getRandomValues(Pasteling.config.keyLength);
 
     if(!text.trim()) {
       alert('Paste cannot be blank.');
       return;
     }
 
-    var post = new Pasteling.Post(text, key, '', lang);
+    var post = new Pasteling.Post({ text: text }, key, '', lang);
     post.encrypt();
 
     $.post('/api/new', post.publicData(), function(data) {
@@ -34,7 +34,7 @@ Pasteling.view = (function() {
         if(data.status == 'success')
           location.href = data.path.editor + '#!' + post.salt + '!' + post.key;
         else {
-          var error = data.error.text;
+          var error = data.error.data;
           alert(error.name + ': ' + error.message);
         }
       });

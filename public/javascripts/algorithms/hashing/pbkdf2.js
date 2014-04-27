@@ -1,19 +1,21 @@
 Pasteling.hashing.pbkdf2 = (function() {
-  var hash = function(text, salt, length, iterations) {
-    var options = {
-      keySize   : (length || 128) / 32,
-      iterations: iterations || 90510
-    };
-
-    return CryptoJS.PBKDF2(text, salt, options);
+  var setup = function() {
+    sjcl.random.startCollectors();
   };
 
-  var randomString = function(length) {
-    return CryptoJS.lib.WordArray.random((length || 128) / 8);
+  var hash = function(string, salt, iterations) {
+    var hash = sjcl.misc.pbkdf2(string, salt, iterations);
+    return sjcl.codec.hex.fromBits(hash);
+  };
+
+  var getRandomValues = function(length) {
+    var values = sjcl.random.randomWords(length / 8, 0);
+    return sjcl.codec.hex.fromBits(values);
   };
 
   return {
-    hash        : hash,
-    randomString: randomString
+    setup          : setup,
+    hash           : hash,
+    getRandomValues: getRandomValues
   };
 })();

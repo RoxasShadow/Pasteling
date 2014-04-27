@@ -3,17 +3,22 @@ Pasteling.hashing = (function() {
     this.algorithm = Pasteling.hashing[algorithm];
   };
 
-  var hash = function(text, salt, length, iterations) {
-    return this.algorithm.hash(text, salt, length, iterations);
+  var setup = function() {
+    return this.algorithm.setup();
   };
 
-  var randomString = function(length) {
-    return this.algorithm.randomString(length);
+  var hash = function(string, salt, iterations) {
+    return this.algorithm.hash(string, salt, iterations);
+  };
+
+  var getRandomValues = function(length) {
+    return this.algorithm.getRandomValues(length);
   };
 
   return {
-    useAlgorithm: useAlgorithm,
-    hash        : hash,
-    randomString: randomString
+    useAlgorithm   : useAlgorithm,
+    setup          : setup,
+    hash           : hash,
+    getRandomValues: getRandomValues
   };
 })();

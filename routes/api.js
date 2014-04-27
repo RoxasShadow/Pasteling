@@ -48,18 +48,18 @@ exports.getJSON = function(req, res, next) {
   });
 };
 
-function create(text, req, res) {
+function create(data, req, res) {
   new CodeMirror(path).get(req.body.lang || 'Plain Text', function(lang) {
     if(lang == null)
       return res.json({ status: 'error', error: [ 'Language not recognized.' ] });
     
-    var data = {
+    var post = {
       id  : (Math.random() + 1).toString(36).substring(8),
-      text: text,
+      data: JSON.parse(data),
       lang: lang
     };
 
-    var paste = new Paste(data);
+    var paste = new Paste(post);
     paste.save(function(err) {
       if(err)
         res.json({ status: 'error', error: err.errors });
@@ -77,11 +77,11 @@ function create(text, req, res) {
 }
 
 exports.create = function(req, res) {
-  if(req.files.text)
-    fs.readFile(req.files.text.path, function(err, text) {
-      create(text.toString(), req, res);
-      fs.unlink(req.files.text.path);
+  if(req.files.data)
+    fs.readFile(req.files.data.path, function(err, data) {
+      create(data.toString(), req, res);
+      fs.unlink(req.files.data.path);
     });
   else
-    create(req.body.text, req, res);
+    create(req.body.data, req, res);
 };

@@ -1,17 +1,20 @@
 Pasteling.ciphering.aes = (function() {
-  var encrypt = function(text, key) {
-    return CryptoJS.AES.encrypt(text, key);
+  var encrypt = function(key, text) {
+    var data = JSON.parse(sjcl.encrypt(key, text));
+    
+    return JSON.stringify({
+      iv  : data.iv,
+      salt: data.salt,
+      ct  : data.ct
+    });
   };
 
-  var decrypt = function(text, key) {
-    return CryptoJS.AES.decrypt(text, key);
+  var decrypt = function(key, params) {
+    return sjcl.decrypt(key, JSON.stringify(params));
   };
-
-  var stringify = CryptoJS.enc.Utf8;
 
   return {
-    encrypt  : encrypt,
-    decrypt  : decrypt,
-    stringify: stringify
+    encrypt: encrypt,
+    decrypt: decrypt
   };
 })();

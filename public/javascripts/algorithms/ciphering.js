@@ -4,12 +4,12 @@ Pasteling.ciphering = (function() {
     this.stringify = this.algorithm.stringify;
   };
 
-  var encrypt = function(text, key) {
-    return this.algorithm.encrypt(text, key);
+  var encrypt = function(key, text) {
+    return this.algorithm.encrypt(key, text);
   };
 
-  var decrypt = function(text, key) {
-    return this.algorithm.decrypt(text, key);
+  var decrypt = function(key, params) {
+    return this.algorithm.decrypt(key, params);
   };
 
   return {

@@ -14,7 +14,7 @@ var Schema = mongoose.Schema;
 
 var PasteSchema = new Schema({
   id       : { type: String, default: ''       },
-  text     : { type: String, default: ''       },
+  data     : { type: Object, default: {}       },
   lang     : { type: Object, default: {}       },
   createdAt: { type: Date,   default: Date.now }
 });
@@ -25,6 +25,8 @@ PasteSchema.statics = {
   }
 };
 
-PasteSchema.path('text').required(true, 'Paste cannot be blank');
+PasteSchema.path('data').validate(function(h) {
+  return h.ct !== undefined && h.ct.length > 0;
+}, 'Paste cannot be blank');
 
 mongoose.model('Paste', PasteSchema);

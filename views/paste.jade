@@ -9,7 +9,6 @@ block header
 block main
   h1.center= paste.id
   
-  textarea(name="text" id="editor" data-lang="#{paste.lang.mode}")= paste.text
+  textarea(name="text" id="editor" data-lang="#{paste.lang.mode}")= JSON.stringify(paste.data)
 
-  a(href="/api/read/" + paste.id + "/", target="_blank")= 'Raw'
   i.right= paste.moment(paste.createdAt).lang('en').fromNow()

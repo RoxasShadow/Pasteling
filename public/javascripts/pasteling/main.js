@@ -1,8 +1,9 @@
 Pasteling.main = (function() {
   var setup = function() {
     Pasteling.ciphering.useAlgorithm(Pasteling.config.algorithms.ciphering);
-    Pasteling.hashing  .useAlgorithm(Pasteling.config.algorithms.hashing  );
+    Pasteling.hashing.useAlgorithm(Pasteling.config.algorithms.hashing);
 
+    Pasteling.hashing.setup();
     Pasteling.codemirror.setup();
     new Pasteling.view();
 
@@ -12,17 +13,18 @@ Pasteling.main = (function() {
 
       var editor = Pasteling.codemirror.editor;
 
-      var text = editor.getValue();
+      var data = JSON.parse(editor.getValue());
       var key  = keySalt.pop();
       var salt = keySalt.pop();
       var lang = $('#editor').data('lang');
 
       try {
-        var post = new Pasteling.Post(text, key, salt, lang);
+        var post = new Pasteling.Post(data, key, salt, lang);
         post.decrypt();
-        editor.setValue(!!post.text.trim() ? post.text : 'Invalid key or salt.');
+        editor.setValue(!!post.data.text.trim() ? post.data.text : 'Invalid key or salt.');
       }
       catch(err) {
+        console.log(err)
         editor.setValue('Invalid key or salt.');
       }
     });

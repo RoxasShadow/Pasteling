@@ -6,11 +6,10 @@ Pasteling.config = (function() {
     },
 
     hashing: {
-      keyLength : 128,   // (/32) hashed key size
-      saltLength: 64,    // (/8)  salt size 
-      iterations: 1000   // number of iterations for key hashing
+      saltLength: 8,
+      iterations: 6400
     },
 
-    keyLength: 32        // (/8)  key size when it is not given in input
+    keyLength: 8 // used when is not given an encryption key
   };
 })();
